@@ -1,0 +1,39 @@
+
+.cheatsheet-docs-navigation {
+    margin-top: -15px;
+    background-color: #fff;
+}
+.cheatsheet-docs-navigation ul {
+    margin: 0 -15px;
+    padding: 0;
+    background-color: #fff;
+    list-style: none;
+}
+.cheatsheet-docs-navigation > ul > li {
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #f7f7f7;
+    line-height: 40px;
+}
+.cheatsheet-docs-navigation > ul > li li {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.cheatsheet-docs-navigation > ul > li > ul > li {
+    border-top: 1px solid #eee;
+}
+.cheatsheet-docs-navigation > ul > li > ul > li:before {
+    content: "\f07b";
+    margin-right: 10px;
+    color: #ddd;
+    font-family: FontAwesome;
+}
+.cheatsheet-docs-navigation > ul > li li li {
+    padding-left: 38px;
+}
+.cheatsheet-docs-navigation > ul > li > ul > li > ul > li:before {
+    content: "\f114";
+    margin-right: 10px;
+    color: #ccc;
+    font-family: FontAwesome;
+}

@@ -1,0 +1,15 @@
+package: cheatsheet
+version: '0.0.1'
+author: Thomas Blum
+supportpage: www.redaxo.org/de/forum/
+
+page:
+    title: 'translate:cheatsheet'
+    perm: cheatsheet[]
+    pjax: false
+    icon: rex-icon fa fa-medkit
+    subpages:
+        extension-points: { title: 'translate:extension_points' }
+
+stylesheets:
+    - cheatsheet.css
