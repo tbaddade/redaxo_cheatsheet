@@ -21,6 +21,7 @@ class ExtensionPoint
     private $filename;
     private $filepath;
     private $params;
+    private $point;
     private $readonly;
     private $subject;
 
@@ -29,9 +30,9 @@ class ExtensionPoint
     }
 
     /**
-     * Checks if the given clang exists.
+     * Checks if the given extension point exists.
      *
-     * @param int $id Clang id
+     * @param string $package Package name
      *
      * @return bool
      */
@@ -46,9 +47,9 @@ class ExtensionPoint
      *
      * @param string $package Package name
      *
-     * @return array
+     * @return self[]
      */
-    public static function get($package)
+    public static function getByPackage($package)
     {
         if (self::exists($package)) {
             return self::$extensionPoints[$package];
@@ -63,7 +64,7 @@ class ExtensionPoint
      */
     public static function getFromCore()
     {
-        return self::get('core');
+        return self::getByPackage('core');
     }
 
     /**
@@ -75,7 +76,7 @@ class ExtensionPoint
      */
     public static function getFromAddon($addon)
     {
-        return self::get($addon);
+        return self::getByPackage($addon);
     }
 
     /**
@@ -88,7 +89,7 @@ class ExtensionPoint
      */
     public static function getFromPlugin($addon, $plugin)
     {
-        return self::get($addon . '/' . $plugin);
+        return self::getByPackage($addon . '/' . $plugin);
     }
 
     /**
@@ -139,6 +140,16 @@ class ExtensionPoint
     public function getParams()
     {
         return $this->params;
+    }
+
+    /**
+     * Returns the parameters.
+     *
+     * @return string
+     */
+    public function getRegisteredPoint()
+    {
+        return $this->point;
     }
 
     /**
@@ -193,19 +204,28 @@ class ExtensionPoint
         }
 
         $cacheDir = \rex_path::addonCache('cheatsheet/extension_points/');
+        if (!file_exists($cacheDir)) {
+            return;
+        }
+
+
         $iterator = \rex_finder::factory($cacheDir)->filesOnly();
 
+        /* @var $file \SplFileInfo */
         foreach ($iterator as $file) {
             $cacheKey = str_replace(['.' . $file->getExtension(), '.'], ['', '/'], $file->getFilename());
             $cacheExtensionPoints = \rex_file::getCache($file->getPathname());
-            foreach ($cacheExtensionPoints as $cacheExtensionPoint) {
-                $extensionPoint = new self();
-                foreach ($cacheExtensionPoint as $key => $value) {
-                    $extensionPoint->$key = $value;
+            if ($cacheExtensionPoints != '') {
+                foreach ($cacheExtensionPoints as $cacheExtensionPoint) {
+                    $extensionPoint = new self();
+                    foreach ($cacheExtensionPoint as $key => $value) {
+                        $extensionPoint->$key = $value;
+                    }
+                    self::$extensionPoints[$cacheKey][] = $extensionPoint;
                 }
-                self::$extensionPoints[$cacheKey][] = $extensionPoint;
             }
         }
+
         self::$cacheLoaded = true;
     }
 

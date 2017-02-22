@@ -1,39 +1,96 @@
 
-.cheatsheet-docs-navigation {
-    margin-top: -15px;
-    background-color: #fff;
+.cheatsheet-docs {
+    /*font-family: "Source Sans Pro", sans-serif;*/
 }
-.cheatsheet-docs-navigation ul {
-    margin: 0 -15px;
-    padding: 0;
-    background-color: #fff;
-    list-style: none;
+.cheatsheet-docs:after {
+    content: '';
+    display: table;
+    clear: both;
 }
-.cheatsheet-docs-navigation > ul > li {
-    padding-left: 15px;
-    padding-right: 15px;
-    background-color: #f7f7f7;
-    line-height: 40px;
+.cheatsheet-docs-sidebar {
+    float: left;
+    width: 250px;
+    margin-right: 15px;
 }
-.cheatsheet-docs-navigation > ul > li li {
-    padding-left: 15px;
-    padding-right: 15px;
+.cheatsheet-docs-content {
+    overflow: hidden;
+    margin-left: 265px;
 }
-.cheatsheet-docs-navigation > ul > li > ul > li {
+
+.cheatsheet-docs-table {
+    width: 100%;
     border-top: 1px solid #eee;
 }
-.cheatsheet-docs-navigation > ul > li > ul > li:before {
-    content: "\f07b";
+.cheatsheet-docs-table th,
+.cheatsheet-docs-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 85%;
+    vertical-align: top;
+}
+.cheatsheet-docs-code-heading {
+    margin-top: 3em;
+    margin-bottom: 1em;
+    padding: 0 15px;
+    font-weight: 400 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2)
+}
+.cheatsheet-docs-table pre {
+    margin: 0;
+    border: 0;
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    tab-size: 4;
+}
+.cheatsheet-docs-code-heading,
+.cheatsheet-docs-table pre {
+    background-color: rgba(238, 238, 238, .4);
+    font-family: "Fira Code", Consolas, Monaco, "Andale Mono", monospace;
+    line-height: 2;
+}
+.cheatsheet-docs-toc ul {
+    padding: 0;
+    list-style: none;
+    font-family: "Fira Code", Consolas, Monaco, "Andale Mono", monospace;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 2;
+}
+.cheatsheet-docs-toc ul > li:before {
+    content: "# ";
+    margin-right: .25em;
+    color: #4b9ad9;
+    opacity: .4;
+}
+
+
+.cheatsheet-docs-navigation ul {
+    margin: -15px;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.cheatsheet-docs-navigation ul > li > a {
+    display: block;
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+    text-decoration: none;
+}
+.cheatsheet-docs-navigation ul > li > a:hover,
+.cheatsheet-docs-navigation ul > li > a.active {
+    background-color: #f7f7f7;
+}
+.cheatsheet-docs-navigation > ul > li > a:before {
+    content: "\f02e";
     margin-right: 10px;
     color: #ddd;
     font-family: FontAwesome;
 }
-.cheatsheet-docs-navigation > ul > li li li {
-    padding-left: 38px;
+.cheatsheet-docs-navigation > ul > li > a.is-plugin {
+    padding-left: 35px;
 }
-.cheatsheet-docs-navigation > ul > li > ul > li > ul > li:before {
-    content: "\f114";
-    margin-right: 10px;
-    color: #ccc;
-    font-family: FontAwesome;
+.cheatsheet-docs-navigation > ul > li > a.is-plugin:before {
+    content: "\f097";
 }

@@ -11,5 +11,8 @@ page:
     subpages:
         extension-points: { title: 'translate:extension_points' }
 
+providers:
+    - Cheatsheet\ExtensionPoint\ExtensionPointServiceProvider
+
 stylesheets:
     - cheatsheet.css

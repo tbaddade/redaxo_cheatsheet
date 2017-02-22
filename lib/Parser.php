@@ -11,13 +11,9 @@
 
 namespace Cheatsheet;
 
-use Cheatsheet\Parser\ExtensionPoint;
-
 class Parser
 {
     use \rex_factory_trait;
-
-    const EXTENSION_POINTS = 1;
 
     private $dir;
     private $iterator;
@@ -55,18 +51,12 @@ class Parser
     /**
      * Creates a Parser instance, according to the provided kind.
      *
-     * @param int $kind One of ::EXTENSION_POINTS
+     * @param string $kind callable parseer class
      *
      * @return ParserInterface The parser instance
      */
     public function create($kind) {
-        switch ($kind) {
-            case self::EXTENSION_POINTS:
-                return new ExtensionPoint($this->iterator);
-            default:
-                throw new \rex_exception(
-                    'Kind must be one of ::EXTENSION_POINTS'
-                );
-        }
+        $class = $kind . 'Parser';
+        return new $class($this->iterator);
     }
 }

@@ -1,0 +1,24 @@
+cheatsheet_extension_point_amount = Anzahl
+cheatsheet_extension_point_docs_title = Auflistung
+cheatsheet_extension_point_function = Funktion
+cheatsheet_extension_point_name = Name
+cheatsheet_extension_point_navigation_heading = AddOns
+cheatsheet_extension_point_no = nein
+cheatsheet_extension_point_no_docs = Zunächst Dateien analysieren!
+cheatsheet_extension_point_parameter = Parameter
+cheatsheet_extension_point_parse = analysieren
+cheatsheet_extension_point_parse_all = Gesamten Core und alle AddOns analysieren
+cheatsheet_extension_point_parse_title = Dateien analysieren
+cheatsheet_extension_point_readonly = Schreibgeschützt
+cheatsheet_extension_point_register = Registrierung im Code
+cheatsheet_extension_point_reparsing = erneut analysieren
+cheatsheet_extension_point_subject = Daten
+cheatsheet_extension_point_title = Extension Points
+cheatsheet_extension_point_yes = ja
+
+cheatsheet_extension_point_available_packages = Aktivierte AddOns
+cheatsheet_extension_point_not_available_packages = Nicht aktivierte AddOns
+
+cheatsheet_extension_point_parse_success = Es wurden <b>{0}</b> Extension Points für <b>{1}</b> gefunden
+cheatsheet_extension_point_parse_success_all = Es wurden insgesamt <b>{0}</b> Extension Points gefunden
+cheatsheet_extension_point_parse_warning = Keine Extension Points für <b>{0}</b> gefunden
