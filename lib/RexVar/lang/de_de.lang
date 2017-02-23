@@ -1,0 +1,9 @@
+cheatsheet_rex_var_docs_title = Auflistung
+cheatsheet_rex_var_title = REX_VAR
+
+cheatsheet_rex_var_no_docs = Zunächst analysieren!
+
+cheatsheet_rex_var_navigation_heading = REX_VARs
+cheatsheet_rex_var_parse_all = analysieren
+cheatsheet_rex_var_register = Registrierung im Code
+cheatsheet_rex_var_parse_success_all = Es wurden insgesamt <b>{0}</b> REX_VARs gefunden
