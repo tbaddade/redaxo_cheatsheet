@@ -13,6 +13,7 @@ page:
 
 providers:
     - Cheatsheet\ExtensionPoint\ExtensionPointServiceProvider
+    - Cheatsheet\RexVar\RexVarServiceProvider
 
 stylesheets:
     - cheatsheet.css

@@ -1,6 +1,6 @@
 <?php
 
-use Cheatsheet\ExtensionPoint;
+use Cheatsheet\ExtensionPoint\ExtensionPoint;
 use Cheatsheet\Package;
 
 $all = ExtensionPoint::getAll();
