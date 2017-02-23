@@ -88,9 +88,11 @@
     color: #ddd;
     font-family: FontAwesome;
 }
+/*
 .cheatsheet-docs-navigation > ul > li > a.is-plugin {
     padding-left: 35px;
 }
+*/
 .cheatsheet-docs-navigation > ul > li > a.is-plugin:before {
     content: "\f097";
 }
