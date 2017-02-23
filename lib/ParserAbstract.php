@@ -27,7 +27,7 @@ abstract class ParserAbstract implements ParserInterface
     private function __construct($dir)
     {
         $this->dir = $dir;
-        $this->iterator = \rex_finder::factory($this->dir)->recursive()->filesOnly()->ignoreFiles(['.*', 'extension_test.*']);
+        $this->iterator = \rex_finder::factory($this->dir)->recursive()->ignoreDirs(['tests'])->filesOnly()->ignoreFiles(['.*']);
     }
 
     /**
