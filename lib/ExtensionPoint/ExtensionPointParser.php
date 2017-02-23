@@ -36,6 +36,8 @@ class ExtensionPointParser extends ParserAbstract
     public function parse()
     {
         $results = [];
+
+        /** @var $file \SplFileInfo */
         foreach ($this->iterator as $file) {
             $filepath = $file->getPathname();
             $content = \rex_file::get($filepath);
