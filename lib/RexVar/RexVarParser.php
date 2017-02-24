@@ -19,6 +19,9 @@ class RexVarParser extends ParserAbstract
     const PATTERN = '
         @
         (?<complete>
+            \/\*
+            .*?
+            \*\/
             \s*
             class\s+rex_var_
             (?<name>[a-z_]+)

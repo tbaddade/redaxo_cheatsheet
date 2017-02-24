@@ -46,7 +46,10 @@ if (count($all)) {
 
         $docs .= '<table class="cheatsheet-docs-table"><colgroup><col width="180px" /><col width="*" /></colgroup>';
         $docs .= '<tbody>';
-        $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_rex_var_register') . '</th><td><p><span class="text-muted">#' . str_replace('~', '&nbsp;', str_pad($rexVar->getLn(), 6, '~')) . '</span> ' . str_replace(\rex_path::src(), '', $rexVar->getFilepath()) . '</p><pre>' . $rexVar->getRegistered() . '</pre></td></tr>';
+        $docs .= '<tr>';
+        $docs .= '<th>' . rex_i18n::msg('cheatsheet_rex_var_register') . '</th>';
+        $docs .= '<td><p><span class="text-muted">#' . str_replace('~', '&nbsp;', str_pad($rexVar->getLn(), 6, '~')) . '</span> ' . str_replace(\rex_path::src(), '', $rexVar->getFilepath()) . '</p><pre>' . htmlspecialchars($rexVar->getRegistered()) . '</pre></td>';
+        $docs .= '</tr>';
         $docs .= '</tbody></table>';
         $docs .= '</div>';
 
