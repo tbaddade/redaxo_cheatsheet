@@ -44,7 +44,11 @@ class Page implements PageInterface
     {
         $page = new \rex_be_page($this->getKey(), $this->getTitle());
         $page->setSubPath($this->getPath());
-        $page->setHref('index.php?page=' . self::ADDON . '/' . $this->key);
+        if ($this->getHref()) {
+            $page->setHref($this->getHref());
+        } else {
+            $page->setHref('index.php?page=' . self::ADDON . '/' . $this->key);
+        }
 
         if (count($this->subpages)) {
             foreach ($this->subpages as $subpage) {
