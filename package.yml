@@ -3,13 +3,13 @@ version: '0.0.1'
 author: Thomas Blum
 supportpage: www.redaxo.org/de/forum/
 
+load: late
+
 page:
     title: 'translate:cheatsheet'
     perm: cheatsheet[]
     pjax: false
     icon: rex-icon fa fa-medkit
-    subpages:
-        extension-points: { title: 'translate:extension_points' }
 
 providers:
     - Cheatsheet\ExtensionPoint\ExtensionPointServiceProvider

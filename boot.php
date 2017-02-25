@@ -11,24 +11,26 @@
 
 if (rex::isBackend() && rex::getUser()) {
 
-
     rex_extension::register('PAGES_PREPARED', function () {
         $providers = \rex_addon::get('cheatsheet')->getProperty('providers');
-        $providers = \rex_extension::registerPoint(new \rex_extension_point('CHEATSHEET_PROVIDER', $providers));
+        foreach (\rex_package::getAvailablePackages() as $package) {
+            if ($package->getProperty('cheatsheet')) {
+                $property = $package->getProperty('cheatsheet');
+                if (!is_array($property)) {
+                    $property = [$property];
+                }
+                $providers = array_merge($providers, $property);
+            }
+        }
 
         if (count($providers) > 0) {
-
             $page = \rex_be_controller::getPageObject('cheatsheet');
-
             foreach ($providers as $provider) {
                 $instance = new $provider();
-
                 if (is_dir($instance->i18n())) {
                     \rex_i18n::addDirectory($instance->i18n());
                 }
-
-                $subpage = $instance->page();
-                $page->addSubPage($subpage);
+                $page->addSubPage($instance->page());
             }
         }
     });
