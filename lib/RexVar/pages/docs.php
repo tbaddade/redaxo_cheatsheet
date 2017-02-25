@@ -77,4 +77,5 @@ if (count($all)) {
     </section>';
 } else {
     echo rex_view::warning(rex_i18n::msg('cheatsheet_rex_var_no_docs'));
+    echo '<p><a class="btn btn-xs btn-default" href="' .  rex_url::currentBackendPage(['func' => 'parse']). '">' . \rex_i18n::msg('cheatsheet_rex_var_parse_all') . '</a></p>';
 }
