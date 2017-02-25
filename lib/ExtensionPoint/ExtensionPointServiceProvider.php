@@ -29,23 +29,19 @@ class ExtensionPointServiceProvider extends ServiceProvider
      */
     public function page()
     {
-        $page = new Page();
-        $page->setKey('extension-points');
-        $page->setPath('lib/ExtensionPoint/pages/extension-points.php');
-        $page->setTitle(\rex_i18n::msg('cheatsheet_extension_point_title'));
+        $page = new \rex_be_page('extension-points', \rex_i18n::msg('cheatsheet_extension_point_title'));
+        $page->setHref(['page' => 'cheatsheet/extension-points']);
 
-        $subpage = new Page();
-        $subpage->setKey('docs');
-        $subpage->setPath('lib/ExtensionPoint/pages/docs.php');
-        $subpage->setTitle(\rex_i18n::msg('cheatsheet_extension_point_docs_title'));
-        $page->addSubpage($subpage->get());
+        $subpage = new \rex_be_page('docs', \rex_i18n::msg('cheatsheet_extension_point_docs_title'));
+        $subpage->setHref(['page' => 'cheatsheet/extension-points/docs']);
+        $subpage->setSubPath(\rex_path::addon('cheatsheet', 'lib/ExtensionPoint/pages/docs.php'));
+        $page->addSubpage($subpage);
 
-        $subpage = new Page();
-        $subpage->setKey('parse');
-        $subpage->setPath('lib/ExtensionPoint/pages/parse.php');
-        $subpage->setTitle(\rex_i18n::msg('cheatsheet_extension_point_parse_title'));
-        $page->addSubpage($subpage->get());
+        $subpage = new \rex_be_page('parse', \rex_i18n::msg('cheatsheet_extension_point_parse_title'));
+        $subpage->setHref(['page' => 'cheatsheet/extension-points/parse']);
+        $subpage->setSubPath(\rex_path::addon('cheatsheet', 'lib/ExtensionPoint/pages/parse.php'));
+        $page->addSubpage($subpage);
 
-        return $page->get();
+        return $page;
     }
 }

@@ -29,23 +29,15 @@ class RexVarServiceProvider extends ServiceProvider
      */
     public function page()
     {
-        $page = new Page();
-        $page->setKey('rex-var');
-        $page->setPath('lib/RexVar/pages/rex-var.php');
-        $page->setTitle(\rex_i18n::msg('cheatsheet_rex_var_title'));
+        $page = new \rex_be_page('rex-var', \rex_i18n::msg('cheatsheet_rex_var_title'));
+        $page->setHref(['page' => 'cheatsheet/rex-var']);
 
-        $subpage = new Page();
-        $subpage->setKey('docs');
-        $subpage->setPath('lib/RexVar/pages/docs.php');
-        $subpage->setTitle(\rex_i18n::msg('cheatsheet_rex_var_docs_title'));
-        $page->addSubpage($subpage->get());
+        $subpage = new \rex_be_page('docs', \rex_i18n::msg('cheatsheet_rex_var_docs_title'));
+        $subpage->setHref(['page' => 'cheatsheet/rex-var/docs']);
+        $subpage->setSubPath(\rex_path::addon('cheatsheet', 'lib/RexVar/pages/docs.php'));
+        $page->addSubpage($subpage);
 
-        //$subpage = new Page();
-        //$subpage->setKey('parse');
-        //$subpage->setPath('lib/ExtensionPoint/pages/parse.php');
-        //$subpage->setTitle(\rex_i18n::msg('cheatsheet_extension_point_parse_title'));
-        //$page->addSubpage($subpage->get());
+        return $page;
 
-        return $page->get();
     }
 }
