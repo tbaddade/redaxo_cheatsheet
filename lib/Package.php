@@ -19,6 +19,7 @@ class Package
     private $name;
     private $packageId;
     private $path;
+    private $plugins = [];
 
 
     public static function exists($packageId)
@@ -52,13 +53,20 @@ class Package
             $package->setPackageId($packageId);
             $package->setName($rexPackage->getName());
             $package->setPath($rexPackage->getPath());
+
+            if (strpos($packageId, '/') === false) {
+                $addon = \rex_addon::get($packageId);
+                $package->setPlugins($addon->getRegisteredPlugins());
+            }
         }
 
         return $package;
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the name of the package.
+     *
+     * @return string Name
      */
     public function getName()
     {
@@ -66,15 +74,19 @@ class Package
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the name.
+     *
+     * @param string $value
      */
-    public function setName($value)
+    protected function setName($value)
     {
         $this->name = $value;
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the id of the package.
+     *
+     * @return string PackageId
      */
     public function getPackageId()
     {
@@ -82,15 +94,19 @@ class Package
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the packageId.
+     *
+     * @param string $value
      */
-    public function setPackageId($value)
+    protected function setPackageId($value)
     {
         $this->packageId = $value;
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the path of the package.
+     *
+     * @return string Path
      */
     public function getPath()
     {
@@ -98,11 +114,33 @@ class Package
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the path.
+     *
+     * @param string $value
      */
-    public function setPath($value)
+    protected function setPath($value)
     {
         $this->path = $value;
+    }
+
+    /**
+     * Returns the plugins of the package.
+     *
+     * @return array Plugins
+     */
+    public function getPlugins()
+    {
+        return $this->plugins;
+    }
+
+    /**
+     * Sets the plugins.
+     *
+     * @param array $value
+     */
+    protected function setPlugins($value)
+    {
+        $this->plugins = $value;
     }
 
 }
