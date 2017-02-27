@@ -1,8 +1,9 @@
 cheatsheet_extension_point_amount = Anzahl
 cheatsheet_extension_point_docs_title = Auflistung
 cheatsheet_extension_point_function = Funktion
+cheatsheet_extension_point_index = Index
 cheatsheet_extension_point_name = Name
-cheatsheet_extension_point_navigation_heading = AddOns
+cheatsheet_extension_point_package_heading = Packages
 cheatsheet_extension_point_no = nein
 cheatsheet_extension_point_no_docs = Zunächst Dateien analysieren!
 cheatsheet_extension_point_parameter = Parameter

@@ -16,6 +16,29 @@
     overflow: hidden;
     margin-left: 265px;
 }
+.cheatsheet-docs-toc-columns {
+    columns: 3;
+    column-gap: 2em;
+}
+.cheatsheet-docs-toc-columns .cheatsheet-docs-toc-heading:first-child {
+    margin-top: 0;
+}
+
+.cheatsheet-docs-code-heading,
+.cheatsheet-docs-toc-heading {
+    margin-top: 3em;
+    margin-bottom: 1em;
+    padding: 0 15px;
+    font-weight: 400 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2)
+}
+.cheatsheet-docs-code-heading,
+.cheatsheet-docs-table pre,
+.cheatsheet-docs-toc-heading {
+    background-color: rgba(238, 238, 238, .4);
+    font-family: "Fira Code", Consolas, Monaco, "Andale Mono", monospace;
+    line-height: 2;
+}
 
 .cheatsheet-docs-table {
     width: 100%;
@@ -28,13 +51,6 @@
     font-size: 85%;
     vertical-align: top;
 }
-.cheatsheet-docs-code-heading {
-    margin-top: 3em;
-    margin-bottom: 1em;
-    padding: 0 15px;
-    font-weight: 400 !important;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .2)
-}
 .cheatsheet-docs-table pre {
     margin: 0;
     border: 0;
@@ -43,13 +59,8 @@
     word-wrap: break-word;
     tab-size: 4;
 }
-.cheatsheet-docs-code-heading,
-.cheatsheet-docs-table pre {
-    background-color: rgba(238, 238, 238, .4);
-    font-family: "Fira Code", Consolas, Monaco, "Andale Mono", monospace;
-    line-height: 2;
-}
-.cheatsheet-docs-toc ul {
+
+.cheatsheet-docs-toc-list {
     padding: 0;
     list-style: none;
     font-family: "Fira Code", Consolas, Monaco, "Andale Mono", monospace;
@@ -57,7 +68,7 @@
     font-weight: 400;
     line-height: 2;
 }
-.cheatsheet-docs-toc ul > li:before {
+.cheatsheet-docs-toc-list > li:before {
     content: "# ";
     margin-right: .25em;
     color: #4b9ad9;
