@@ -43,6 +43,17 @@ $getTableRow = function (Package $package) {
         $cache = rex_file::getCache($cacheFile);
         $count = $cache == '' ? 0 : count($cache);
         $linkLabel = rex_i18n::msg('cheatsheet_extension_point_reparsing');
+
+        if (count($package->getPlugins())) {
+            /* @var $plugin \rex_plugin */
+            foreach ($package->getPlugins() as $plugin) {
+                $cacheFilePlugin = rex_path::addonCache('cheatsheet', 'extension_points/' . str_replace('/', '.', $plugin->getPackageId()) . '.cache');
+                if (file_exists($cacheFilePlugin)) {
+                    $cache = rex_file::getCache($cacheFilePlugin);
+                    $count = $cache == '' ? $count : ($count + count($cache));
+                }
+            }
+        }
     }
 
     return '
