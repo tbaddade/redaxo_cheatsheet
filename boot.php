@@ -12,7 +12,7 @@
 if (rex::isBackend() && rex::getUser()) {
 
     rex_extension::register('PAGES_PREPARED', function () {
-        $providers = \rex_addon::get('cheatsheet')->getProperty('providers');
+        $providers = \rex_addon::get('cheatsheet')->getProperty('providers', []);
         foreach (\rex_package::getAvailablePackages() as $package) {
             if ($package->getProperty('cheatsheet')) {
                 $property = $package->getProperty('cheatsheet');
@@ -36,7 +36,7 @@ if (rex::isBackend() && rex::getUser()) {
     });
 
 
-    $stylesheets = $this->getProperty('stylesheets');
+    $stylesheets = $this->getProperty('stylesheets', []);
 
     if (count($stylesheets)) {
         foreach ($stylesheets as $stylesheet) {
@@ -44,7 +44,7 @@ if (rex::isBackend() && rex::getUser()) {
         }
     }
 
-    $javascripts = $this->getProperty('javascripts');
+    $javascripts = $this->getProperty('javascripts', []);
 
     if (count($javascripts)) {
         foreach ($javascripts as $javascript) {
