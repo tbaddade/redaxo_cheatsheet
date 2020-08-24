@@ -52,7 +52,7 @@ if (count($all)) {
             $toc[] = '<a href="#' . $extensionPoint->getName() . '">' . $extensionPoint->getName() . '</a>';
             $button = '';
             if ($url = $editor->getUrl($extensionPoint->getFilepath(),$extensionPoint->getLn())) {
-               $button = ' <a href="'. $url .'" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> '.$editor->getName().'</a>';
+               $button = ' <a href="'. $url .'" class="btn btn-info btn-xs"><i class="rex-icon rex-icon-view"></i> '.$editor->getName().'</a>';
             }
             $docs = '';
             $docs .= '<div class="cheatsheet-docs-block">';
