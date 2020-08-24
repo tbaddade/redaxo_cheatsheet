@@ -45,21 +45,15 @@ if (count($all)) {
         }
         $content .= '</nav>';
     } else {
-        
         $editor = rex_editor::factory();
-        $editButton = null === $editor->getName()
-            ? null
-            : ' <a href="" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> '.$editor->getName().'</a>';
-
         $toc = [];
         $extensionPoints = ExtensionPoint::getByPackage($requestIndex);
         foreach ($extensionPoints as $extensionPoint) {
             $toc[] = '<a href="#' . $extensionPoint->getName() . '">' . $extensionPoint->getName() . '</a>';
-
-            $button = null === $editButton
-                ? ''
-                : substr_replace( $editButton, $editor->getUrl($extensionPoint->getFilepath(),$extensionPoint->getLn()), 10, 0 );
-
+            $button = '';
+            if ($url = $editor->getUrl($extensionPoint->getFilepath(),$extensionPoint->getLn())) {
+               $button = ' <a href="'. $url .'" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> '.$editor->getName().'</a>';
+            }
             $docs = '';
             $docs .= '<div class="cheatsheet-docs-block">';
             $docs .= '<a name="' . $extensionPoint->getName() . '"></a>';
