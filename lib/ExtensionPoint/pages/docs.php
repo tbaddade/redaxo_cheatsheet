@@ -45,11 +45,15 @@ if (count($all)) {
         }
         $content .= '</nav>';
     } else {
+        $editor = rex_editor::factory();
         $toc = [];
         $extensionPoints = ExtensionPoint::getByPackage($requestIndex);
         foreach ($extensionPoints as $extensionPoint) {
             $toc[] = '<a href="#' . $extensionPoint->getName() . '">' . $extensionPoint->getName() . '</a>';
-
+            $button = '';
+            if ($url = $editor->getUrl($extensionPoint->getFilepath(),$extensionPoint->getLn())) {
+               $button = ' <a href="'. $url .'" class="btn btn-info btn-xs"><i class="rex-icon rex-icon-view"></i> '.$editor->getName().'</a>';
+            }
             $docs = '';
             $docs .= '<div class="cheatsheet-docs-block">';
             $docs .= '<a name="' . $extensionPoint->getName() . '"></a>';
@@ -57,7 +61,7 @@ if (count($all)) {
 
             $docs .= '<table class="cheatsheet-docs-table"><colgroup><col width="180px" /><col width="*" /></colgroup>';
             $docs .= '<tfoot>';
-            $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_register') . '</th><td><p><span class="text-muted">#' . str_replace('~', '&nbsp;', str_pad($extensionPoint->getLn(), 6, '~')) . '</span> ' . str_replace(\rex_path::src(), '', $extensionPoint->getFilepath()) . '</p><pre>' . $extensionPoint->getRegisteredPoint() . '</pre></td></tr>';
+            $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_register') . '</th><td><p><span class="text-muted">#' . str_replace('~', '&nbsp;', str_pad($extensionPoint->getLn(), 6, '~')) . '</span> ' . str_replace(\rex_path::src(), '', $extensionPoint->getFilepath()) . $button . '</p><pre>' . $extensionPoint->getRegisteredPoint() . '</pre></td></tr>';
             $docs .= '</tfoot><tbody>';
             $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_subject') . '</th><td>' . ($extensionPoint->getSubject() != '' ? '<pre>' . $extensionPoint->getSubject() . '</pre>' : '') . '</td></tr>';
             $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_parameter') . '</th><td>' . ($extensionPoint->getParams() != '' ? '<pre>' . $extensionPoint->getParams() . '</pre>' : '') . '</td></tr>';
