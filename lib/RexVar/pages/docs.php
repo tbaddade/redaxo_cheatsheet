@@ -36,8 +36,14 @@ if (count($all)) {
 
 
     $rexVars = RexVar::getByPackage($requestIndex);
+    $editor = rex_editor::factory();
     foreach ($rexVars as $rexVar) {
         $toc[] = '<a href="#' . $rexVar->getName() . '">' . $rexVar->getName() . '</a>';
+
+        $button = '';
+        if ($url = $editor->getUrl($rexVar->getFilepath(),$rexVar->getLn())) {
+           $button = ' <a href="'. $url .'" class="btn btn-info btn-xs"><i class="rex-icon rex-icon-view"></i> '.$editor->getName().'</a>';
+        }
 
         $docs = '';
         $docs .= '<div class="cheatsheet-docs-block">';
@@ -48,7 +54,7 @@ if (count($all)) {
         $docs .= '<tbody>';
         $docs .= '<tr>';
         $docs .= '<th>' . rex_i18n::msg('cheatsheet_rex_var_register') . '</th>';
-        $docs .= '<td><p><span class="text-muted">#' . str_replace('~', '&nbsp;', str_pad($rexVar->getLn(), 6, '~')) . '</span> ' . str_replace(\rex_path::src(), '', $rexVar->getFilepath()) . '</p><pre>' . htmlspecialchars($rexVar->getRegistered()) . '</pre></td>';
+        $docs .= '<td><p><span class="text-muted">#' . str_replace('~', '&nbsp;', str_pad($rexVar->getLn(), 6, '~')) . '</span> ' . str_replace(\rex_path::src(), '', $rexVar->getFilepath()) . $button . '</p><pre>' . htmlspecialchars($rexVar->getRegistered()) . '</pre></td>';
         $docs .= '</tr>';
         $docs .= '</tbody></table>';
         $docs .= '</div>';
