@@ -222,6 +222,7 @@ class ExtensionPoint
                 foreach ($cacheExtensionPoints as $cacheExtensionPoint) {
                     $extensionPoint = new self();
                     foreach ($cacheExtensionPoint as $key => $value) {
+                        /** @phpstan-ignore-next-line */
                         $extensionPoint->$key = $value;
                     }
                     self::$extensionPoints[$cacheKey][] = $extensionPoint;

@@ -190,6 +190,7 @@ class RexVar
                 foreach ($cacheRexVars as $cacheRexVar) {
                     $rexVar = new self();
                     foreach ($cacheRexVar as $key => $value) {
+                        /** @phpstan-ignore-next-line */
                         $rexVar->$key = $value;
                     }
                     self::$rexVars[$cacheKey][] = $rexVar;
