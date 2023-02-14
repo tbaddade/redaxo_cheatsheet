@@ -107,3 +107,39 @@
 .cheatsheet-docs-navigation > ul > li > a.is-plugin:before {
     content: "\f097";
 }
+
+body.rex-theme-dark .cheatsheet-docs-code-heading,
+body.rex-theme-dark .cheatsheet-docs-table pre,
+body.rex-theme-dark .cheatsheet-docs-toc-heading {
+    background-color: rgba(238, 238, 238, .05);
+}
+body.rex-theme-dark .cheatsheet-docs-navigation ul > li > a,
+body.rex-theme-dark .cheatsheet-docs-table,
+body.rex-theme-dark .cheatsheet-docs-table th,
+body.rex-theme-dark .cheatsheet-docs-table td {
+    border-color: rgba(156, 165, 178, 0.3);
+}
+body.rex-theme-dark .cheatsheet-docs-navigation ul > li > a:hover,
+body.rex-theme-dark .cheatsheet-docs-navigation ul > li > a.active {
+    background-color: #1867a6;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.rex-theme-light) .cheatsheet-docs-code-heading,
+    body:not(.rex-theme-light) .cheatsheet-docs-table pre,
+    body:not(.rex-theme-light) .cheatsheet-docs-toc-heading {
+        background-color: rgba(238, 238, 238, .05);
+    }
+    body:not(.rex-theme-light) .cheatsheet-docs-navigation ul > li > a,
+    body:not(.rex-theme-light) .cheatsheet-docs-table,
+    body:not(.rex-theme-light) .cheatsheet-docs-table th,
+    body:not(.rex-theme-light) .cheatsheet-docs-table td {
+        border-color: rgba(156, 165, 178, 0.3);
+    }
+    body:not(.rex-theme-light) .cheatsheet-docs-navigation ul > li > a:hover,
+    body:not(.rex-theme-light) .cheatsheet-docs-navigation ul > li > a.active {
+        background-color: #1867a6;
+        color: rgba(255, 255, 255, 0.75);
+    }
+}
