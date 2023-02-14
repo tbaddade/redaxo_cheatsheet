@@ -52,7 +52,8 @@ if (count($all) > 1) {
             $button = '';
             $url = $editor->getUrl($extensionPoint->getFilepath(),$extensionPoint->getLn());
             if (is_string($url)) {
-               $button = ' <a href="'. $url .'" class="btn btn-default btn-xs"><i class="rex-icon rex-icon-view"></i> '.$editor->getName().'</a>';
+                $supportedEditors = $editor->getSupportedEditors();
+                $button = ' <a href="'. $url .'" class="btn btn-default btn-xs"><i class="rex-icon rex-icon-view"></i> '.(isset($supportedEditors[$editor->getName()]) ? $supportedEditors[$editor->getName()] : $editor->getName()).'</a>';
             }
             $docs = '';
             $docs .= '<div class="cheatsheet-docs-block">';
