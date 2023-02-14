@@ -11,16 +11,20 @@
 
 namespace Cheatsheet\RexVar;
 
+use rex_file;
+use rex_finder;
+use rex_path;
+
 class RexVar
 {
-    private static $cacheLoaded = false;
-    private static $rexVars = [];
+    private static bool $cacheLoaded = false;
+    private static array $rexVars = [];
 
-    private $complete;
-    private $ln;
-    private $name;
-    private $filename;
-    private $filepath;
+    private string $complete;
+    private string $ln;
+    private string $name;
+    private string $filename;
+    private string $filepath;
 
     private function __construct()
     {
@@ -33,7 +37,7 @@ class RexVar
      *
      * @return bool
      */
-    public static function exists($package)
+    public static function exists(string $package): bool
     {
         self::checkCache();
         return isset(self::$rexVars[$package]);
@@ -46,12 +50,12 @@ class RexVar
      *
      * @return self[]
      */
-    public static function getByPackage($package)
+    public static function getByPackage(string $package): array
     {
         if (self::exists($package)) {
             return self::$rexVars[$package];
         }
-        return null;
+        return [];
     }
 
     /**
@@ -59,7 +63,7 @@ class RexVar
      *
      * @return array
      */
-    public static function getFromCore()
+    public static function getFromCore(): array
     {
         return self::getByPackage('core');
     }
@@ -71,7 +75,7 @@ class RexVar
      *
      * @return array
      */
-    public static function getFromAddon($addon)
+    public static function getFromAddon(string $addon): array
     {
         return self::getByPackage($addon);
     }
@@ -84,7 +88,7 @@ class RexVar
      *
      * @return array
      */
-    public static function getFromPlugin($addon, $plugin)
+    public static function getFromPlugin(string $addon, string $plugin): array
     {
         return self::getByPackage($addon . '/' . $plugin);
     }
@@ -94,7 +98,7 @@ class RexVar
      *
      * @return string
      */
-    public function getFilename()
+    public function getFilename(): string
     {
         return $this->filename;
     }
@@ -104,7 +108,7 @@ class RexVar
      *
      * @return string
      */
-    public function getFilepath()
+    public function getFilepath(): string
     {
         return $this->filepath;
     }
@@ -114,7 +118,7 @@ class RexVar
      *
      * @return string
      */
-    public function getLn()
+    public function getLn(): string
     {
         return $this->ln;
     }
@@ -124,7 +128,7 @@ class RexVar
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -134,7 +138,7 @@ class RexVar
      *
      * @return string
      */
-    public function getRegistered()
+    public function getRegistered(): string
     {
         return $this->complete;
     }
@@ -144,7 +148,7 @@ class RexVar
      *
      * @return int
      */
-    public static function count()
+    public static function count(): int
     {
         self::checkCache();
         return count(self::$rexVars);
@@ -155,7 +159,7 @@ class RexVar
      *
      * @return self[]
      */
-    public static function getAll()
+    public static function getAll(): array
     {
         self::checkCache();
         return self::$rexVars;
@@ -170,19 +174,19 @@ class RexVar
             return;
         }
 
-        $cacheDir = \rex_path::addonCache('cheatsheet/rex_vars/');
+        $cacheDir = rex_path::addonCache('cheatsheet/rex_vars/');
         if (!file_exists($cacheDir)) {
             return;
         }
 
 
-        $iterator = \rex_finder::factory($cacheDir)->filesOnly();
+        $iterator = rex_finder::factory($cacheDir)->filesOnly();
 
         /* @var $file \SplFileInfo */
         foreach ($iterator as $file) {
             $cacheKey = str_replace(['.' . $file->getExtension(), '.'], ['', '/'], $file->getFilename());
-            $cacheRexVars = \rex_file::getCache($file->getPathname());
-            if ($cacheRexVars != '') {
+            $cacheRexVars = rex_file::getCache($file->getPathname());
+            if (is_array($cacheRexVars)) {
                 foreach ($cacheRexVars as $cacheRexVar) {
                     $rexVar = new self();
                     foreach ($cacheRexVar as $key => $value) {

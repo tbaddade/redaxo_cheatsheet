@@ -11,19 +11,23 @@
 
 namespace Cheatsheet;
 
+use rex_addon;
+use rex_i18n;
+use rex_plugin;
+
 class Str
 {
     public static function getPackageTitle($packageParts, $default = '')
     {
         $package = null;
-        if (count($packageParts) == 2 && \rex_plugin::exists($packageParts[0], $packageParts[1])) {
-            $package = \rex_plugin::get($packageParts[0], $packageParts[1]);
-        } elseif ( \rex_addon::exists($packageParts[0])) {
-            $package = \rex_addon::get($packageParts[0]);
+        if (2 === count($packageParts) && rex_plugin::exists($packageParts[0], $packageParts[1])) {
+            $package = rex_plugin::get($packageParts[0], $packageParts[1]);
+        } elseif ( rex_addon::exists($packageParts[0])) {
+            $package = rex_addon::get($packageParts[0]);
         }
-        if ($package) {
+        if (null !== $package) {
             $page = $package->getProperty('page');
-            return isset($page['title']) ? \rex_i18n::translate($page['title']) : $package->getName();
+            return isset($page['title']) ? rex_i18n::translate($page['title']) : $package->getName();
         }
 
         return $default;
@@ -40,20 +44,20 @@ class Str
         foreach($values as $index => $value) {
             $value = trim($value);
             $key = $index;
-            if (substr($value, 0, 2) == '[]') {
+            if ('[]' === substr($value, 0, 2)) {
                 $values[$key] = $value;
             }
-            elseif (substr($value, 0, 1) == '[') {
+            elseif ('[' === substr($value, 0, 1)) {
                 $values[$key] = $value;
                 $arrayKey = $key;
                 $arrayOpened = true;
-                if (strpos(substr($value, 1), '[') === false && substr($value, -1) == ']') {
+                if (strpos(substr($value, 1), '[') === false && ']' === substr($value, -1)) {
                     $arrayOpened = false;
                 }
             } elseif ($arrayOpened) {
                 $values[$arrayKey] = $values[$arrayKey] . ', ' . $value;
                 unset($values[$key]);
-                if (strpos($value, '[') === false && substr($value, -1) == ']') {
+                if (strpos($value, '[') === false && ']' === substr($value, -1)) {
                     $arrayOpened = false;
                 }
             } else {

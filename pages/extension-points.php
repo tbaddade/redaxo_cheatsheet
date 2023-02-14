@@ -9,12 +9,13 @@
  * file that was distributed with this source code.
  */
 
-use Cheatsheet\ExtensionPoint;
+use Cheatsheet\ExtensionPoint\ExtensionPoint;
 use Cheatsheet\Parser;
 use Cheatsheet\Str;
 
 
-function getTable($extensionPoints) {
+function getTable($extensionPoints): string
+{
     $rows = '';
     $docs = '';
     /** @var ExtensionPoint $extensionPoint **/
@@ -22,8 +23,8 @@ function getTable($extensionPoints) {
         $rows .= '
             <tr>
                 <td><code>' . $extensionPoint->getName() . '</code></td>
-                <td>' . ($extensionPoint->getSubject() != '' ? '<small><code>' . $extensionPoint->getSubject() . '</code></small>' : '') . '</td>
-                <td>' . ($extensionPoint->getParams() != '' ? '<small><code>' . $extensionPoint->getParams() . '</code></small>' : '') . '</td>
+                <td>' . ('' !== $extensionPoint->getSubject() ? '<small><code>' . $extensionPoint->getSubject() . '</code></small>' : '') . '</td>
+                <td>' . ('' !== $extensionPoint->getParams() ? '<small><code>' . $extensionPoint->getParams() . '</code></small>' : '') . '</td>
                 <td>' . ($extensionPoint->isReadonly() ? '<small><code>true</code></small>' : '') . '</td>
                 <td><small class="text-muted">#' . str_replace('~', '&nbsp;', str_pad($extensionPoint->getLn(), 6, '~')) . '</small> <small>' . str_replace(\rex_path::src(), '', $extensionPoint->getFilepath()) . '</small></td>
             </tr>';
@@ -45,8 +46,8 @@ EOT;
 */
         $docs .= '<table style="font-size: 85%;"><colgroup><col width="140px" /><col width="*" /></colgroup><tbody>';
         $docs .= '<tr><th style="font-size: inherit;">Registrierung</th><td><span class="text-muted">#' . str_replace('~', '&nbsp;', str_pad($extensionPoint->getLn(), 6, '~')) . '</span> ' . str_replace(\rex_path::src(), '', $extensionPoint->getFilepath()) . '<br /><pre>' . $extensionPoint->getRegisteredPoint() . '</pre></td></tr>';
-        $docs .= '<tr><th style="font-size: inherit;">Daten</th><td>' . ($extensionPoint->getSubject() != '' ? '<pre>' . $extensionPoint->getSubject() . '</pre>' : '') . '</td></tr>';
-        $docs .= '<tr><th style="font-size: inherit;">Parameter</th><td>' . ($extensionPoint->getParams() != '' ? '<code>' . $extensionPoint->getParams() . '</code>' : '') . '</td></tr>';
+        $docs .= '<tr><th style="font-size: inherit;">Daten</th><td>' . ('' !== $extensionPoint->getSubject() ? '<pre>' . $extensionPoint->getSubject() . '</pre>' : '') . '</td></tr>';
+        $docs .= '<tr><th style="font-size: inherit;">Parameter</th><td>' . ('' !== $extensionPoint->getParams() ? '<code>' . $extensionPoint->getParams() . '</code>' : '') . '</td></tr>';
         $docs .= '<tr><th style="font-size: inherit;">Schreibgeschützt</th><td>' . ($extensionPoint->isReadonly() ? '<code>true</code>' : 'false') . '</td></tr>';
 
         $docs .= '<tr><th style="font-size: inherit;">Beispiel</th><td><pre>' . $etc . '</pre></td></tr>';
@@ -107,11 +108,11 @@ if ($package instanceof rex_addon || $package instanceof rex_plugin) {
 
 //var_dump($configPackage);
 
-if ($function == 'parse') {
+if ('parse' === $function) {
     $path = $configPackage['path'];
     $parser = Parser::factory($path)->create('ExtensionPoint');
     $extensionPoints = $parser->parse();
-    if (count($extensionPoints)) {
+    if (count($extensionPoints) > 0) {
         echo rex_view::success('Extension Points für <b>' . $configPackage['title'] . '</b> gefunden');
     } else {
         echo rex_view::warning('Keine Extension Points für <b>' . $configPackage['title'] . '</b> gefunden');
@@ -130,17 +131,17 @@ $foundAddonItems = [];
 $notFoundAddonItems = [];
 foreach ($addons as $addon) {
     $extensionPoints = ExtensionPoint::getFromAddon($addon->getName());
-    if (count($extensionPoints)) {
+    if (count($extensionPoints) > 0) {
         $pluginList = '';
-        if ($addon->getAvailablePlugins()) {
+        if (count($addon->getAvailablePlugins()) > 0) {
             $pluginItems = [];
             foreach ($addon->getAvailablePlugins() as $plugin) {
                 $extensionPoints = ExtensionPoint::getFromPlugin($addon->getName(), $plugin->getName());
-                if (count($extensionPoints)) {
+                if (count($extensionPoints) > 0) {
                     $pluginItems[] = '<li><a href="' . rex_url::currentBackendPage(['package' => $addon->getName() . '/' . $plugin->getName(), 'function' => 'view']) . '">' . Str::getPackageTitle([$addon->getName(), $plugin->getName()]) . '</a></li>';
                 }
             }
-            $pluginList = (count($pluginItems)) ? '<ul>' . implode('', $pluginItems) . '</ul>' : '';
+            $pluginList = (count($pluginItems) > 0) ? '<ul>' . implode('', $pluginItems) . '</ul>' : '';
         }
 
         $foundAddonItems[] = '<li><a href="' . rex_url::currentBackendPage(['package' => $addon->getName(), 'function' => 'view']) . '">' . Str::getPackageTitle([$addon->getName()]) . '</a> <a class="pull-right" href="' . rex_url::currentBackendPage(['package' => $addon->getName(), 'function' => 'parse']) . '"><small>erneut parsen</small></a>' . $pluginList . '</li>';
@@ -162,8 +163,8 @@ $sidebar = $fragment->parse('core/page/section.php');
 
 
 $content = '';
-$extensionPoints = ExtensionPoint::get($configPackage['key']);
-if ($extensionPoints) {
+$extensionPoints = ExtensionPoint::getByPackage($configPackage['key']);
+if (count($extensionPoints) > 0) {
     $table = getTable($extensionPoints);
     $fragment = new rex_fragment();
     $fragment->setVar('title', $configPackage['title']);

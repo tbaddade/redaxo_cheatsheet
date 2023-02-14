@@ -11,6 +11,8 @@
 namespace Cheatsheet\Support;
 
 
+use rex_be_page;
+
 abstract class ServiceProvider
 {
 
@@ -19,13 +21,13 @@ abstract class ServiceProvider
      *
      * @return string
      */
-    abstract function i18n();
+    abstract function i18n(): string ;
 
 
     /**
      * Register the page provider.
      *
-     * @return Page
+     * @return rex_be_page
      */
-    abstract function page();
+    abstract function page(): rex_be_page;
 }

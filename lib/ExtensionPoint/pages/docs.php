@@ -6,14 +6,15 @@ use Cheatsheet\Package;
 $all = ExtensionPoint::getAll();
 $requestIndex = rex_request('index', 'string', '');
 
-if (count($all)) {
+if (count($all) > 1) {
     $indexList = [];
     $nav = [];
+    /** @var list<ExtensionPoint> $extensionPoints */
     foreach ($all as $index => $extensionPoints) {
         $navAttributes = [
             'href' => rex_url::currentBackendPage(['index' => $index]),
         ];
-        if ($index == $requestIndex) {
+        if ($index === $requestIndex) {
             $navAttributes['class'][] = 'active';
         }
         if (strpos($index, '/') !== false) {
@@ -21,17 +22,15 @@ if (count($all)) {
         }
         $nav[] = '<a' . rex_string::buildAttributes($navAttributes) . '>' . $index . '</a>';
 
-        if ($extensionPoints) {
-            /* @var $extensionPoint ExtensionPoint */
-            foreach ($extensionPoints as $extensionPoint) {
-                $indexList[$extensionPoint->getName() . $extensionPoint->getLn()] = '<a href="' . rex_url::currentBackendPage(['index' => $index]) . '#' . $extensionPoint->getName() . '">' . $extensionPoint->getName() . '</a>';
-            }
+        /* @var ExtensionPoint $extensionPoint */
+        foreach ($extensionPoints as $extensionPoint) {
+            $indexList[$extensionPoint->getName() . $extensionPoint->getLn()] = '<a href="' . rex_url::currentBackendPage(['index' => $index]) . '#' . $extensionPoint->getName() . '">' . $extensionPoint->getName() . '</a>';
         }
     }
 
 
     $content = '';
-    if ($requestIndex == '') {
+    if ('' === $requestIndex) {
         ksort($indexList);
         $chunkIndex = [];
         foreach ($indexList as $index => $indexItem) {
@@ -51,7 +50,8 @@ if (count($all)) {
         foreach ($extensionPoints as $extensionPoint) {
             $toc[] = '<a href="#' . $extensionPoint->getName() . '">' . $extensionPoint->getName() . '</a>';
             $button = '';
-            if ($url = $editor->getUrl($extensionPoint->getFilepath(),$extensionPoint->getLn())) {
+            $url = $editor->getUrl($extensionPoint->getFilepath(),$extensionPoint->getLn());
+            if (is_string($url)) {
                $button = ' <a href="'. $url .'" class="btn btn-info btn-xs"><i class="rex-icon rex-icon-view"></i> '.$editor->getName().'</a>';
             }
             $docs = '';
@@ -63,8 +63,8 @@ if (count($all)) {
             $docs .= '<tfoot>';
             $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_register') . '</th><td><p><span class="text-muted">#' . str_replace('~', '&nbsp;', str_pad($extensionPoint->getLn(), 6, '~')) . '</span> ' . str_replace(\rex_path::src(), '', $extensionPoint->getFilepath()) . $button . '</p><pre>' . $extensionPoint->getRegisteredPoint() . '</pre></td></tr>';
             $docs .= '</tfoot><tbody>';
-            $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_subject') . '</th><td>' . ($extensionPoint->getSubject() != '' ? '<pre>' . $extensionPoint->getSubject() . '</pre>' : '') . '</td></tr>';
-            $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_parameter') . '</th><td>' . ($extensionPoint->getParams() != '' ? '<pre>' . $extensionPoint->getParams() . '</pre>' : '') . '</td></tr>';
+            $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_subject') . '</th><td>' . ('' !== $extensionPoint->getSubject() ? '<pre>' . $extensionPoint->getSubject() . '</pre>' : '') . '</td></tr>';
+            $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_parameter') . '</th><td>' . ('' !== $extensionPoint->getParams() ? '<pre>' . $extensionPoint->getParams() . '</pre>' : '') . '</td></tr>';
             $docs .= '<tr><th>' . rex_i18n::msg('cheatsheet_extension_point_readonly') . '</th><td>' . ($extensionPoint->isReadonly() ? rex_i18n::msg('cheatsheet_extension_point_yes') : rex_i18n::msg('cheatsheet_extension_point_no')) . '</td></tr>';
             $docs .= '</tbody></table>';
             $docs .= '</div>';
@@ -84,7 +84,7 @@ if (count($all)) {
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('cheatsheet_extension_point_title') . ' : ' . ($requestIndex == '' ? rex_i18n::msg('cheatsheet_extension_point_index') : '<code>' . $requestIndex . '</code>' ), false);
+    $fragment->setVar('title', rex_i18n::msg('cheatsheet_extension_point_title') . ' : ' . ('' === $requestIndex ? rex_i18n::msg('cheatsheet_extension_point_index') : '<code>' . $requestIndex . '</code>' ), false);
     $fragment->setVar('body', $content, false);
     $content = $fragment->parse('core/page/section.php');
 

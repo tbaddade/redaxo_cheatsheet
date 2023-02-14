@@ -10,70 +10,79 @@
  */
 namespace Cheatsheet;
 
+use rex_be_page;
+
 interface PageInterface
 {
 
     /**
      * Adds a subpage
      *
-     * @param \rex_be_page $page
+     * @param rex_be_page $page
      */
-    public function addSubpage(\rex_be_page $page);
+    public function addSubpage(rex_be_page $page);
 
     /**
      * Returns the backend page.
      *
-     * @return \rex_be_page
+     * @return rex_be_page
      */
-    public function get();
+    public function get(): rex_be_page;
 
     /**
      * Returns the href of the page.
      *
-     * @return string Href
+     * @return string href
      */
-    public function getHref();
+    public function getHref(): string;
+
+    /**
+     * Sets the href.
+     *
+     * @param array|string $value
+     */
+    public function setHref($value);
 
     /**
      * Returns the key of the page.
      *
-     * @return string Key
+     * @return string key
      */
-    public function getKey();
+    public function getKey(): string;
 
     /**
      * Sets the key.
      *
      * @param string $value
      */
-    public function setKey($value);
+    public function setKey(string $value);
 
     /**
      * Returns the path of the page.
      *
      * @return string Path
      */
-    public function getPath();
+    public function getPath(): string;
 
     /**
      * Sets the path.
      *
      * @param string $value
      */
-    public function setPath($value);
+    public function setPath(string $value);
 
     /**
      * Returns the title of the page.
      *
      * @return string Title
      */
-    public function getTitle();
+    public function getTitle(): string;
 
     /**
      * Sets the title.
      *
      * @param string $value
      */
-    public function setTitle($value);
+    public function setTitle(string $value);
 
 }

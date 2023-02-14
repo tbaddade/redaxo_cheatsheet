@@ -11,16 +11,18 @@
 
 namespace Cheatsheet;
 
+use rex_be_page;
+use rex_path;
 
 class Page implements PageInterface
 {
     const ADDON = 'cheatsheet';
 
-    private $href;
-    private $key;
-    private $path;
-    private $title;
-    private $subpages = [];
+    private string $href;
+    private string $key;
+    private string $path;
+    private string $title;
+    private array $subpages = [];
 
     public function __construct()
     {
@@ -31,7 +33,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function addSubpage(\rex_be_page $page)
+    public function addSubpage(rex_be_page $page)
     {
         $this->subpages[] = $page;
     }
@@ -40,17 +42,17 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function get()
+    public function get(): rex_be_page
     {
-        $page = new \rex_be_page($this->getKey(), $this->getTitle());
+        $page = new rex_be_page($this->getKey(), $this->getTitle());
         $page->setSubPath($this->getPath());
-        if ($this->getHref()) {
+        if ('' !== $this->getHref()) {
             $page->setHref($this->getHref());
         } else {
             $page->setHref('index.php?page=' . self::ADDON . '/' . $this->key);
         }
 
-        if (count($this->subpages)) {
+        if (count($this->subpages) > 0) {
             foreach ($this->subpages as $subpage) {
                 $subpage->setHref('index.php?page=' . self::ADDON . '/' . $this->key . '/' . $subpage->getKey());
                 $page->addSubpage($subpage);
@@ -63,7 +65,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getHref()
+    public function getHref(): string
     {
         return $this->href;
     }
@@ -79,7 +81,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -87,7 +89,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setKey($value)
+    public function setKey(string $value)
     {
         $this->key = $value;
     }
@@ -95,15 +97,15 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getPath()
+    public function getPath(): string
     {
-        return \rex_path::addon(self::ADDON, $this->path);
+        return rex_path::addon(self::ADDON, $this->path);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setPath($value)
+    public function setPath(string $value)
     {
         $this->path = $value;
     }
@@ -111,7 +113,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -119,9 +121,8 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setTitle($value)
+    public function setTitle(string $value)
     {
         $this->title = $value;
     }
-
 }

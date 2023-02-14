@@ -10,8 +10,8 @@
  */
 namespace Cheatsheet\RexVar;
 
-use Cheatsheet\Page;
 use Cheatsheet\Support\ServiceProvider;
+use rex_be_page;
 
 class RexVarServiceProvider extends ServiceProvider
 {
@@ -19,7 +19,7 @@ class RexVarServiceProvider extends ServiceProvider
     /**
      * {@inheritdoc}
      */
-    public function i18n()
+    public function i18n(): string
     {
         return __DIR__ . '/lang';
     }
@@ -27,12 +27,12 @@ class RexVarServiceProvider extends ServiceProvider
     /**
      * {@inheritdoc}
      */
-    public function page()
+    public function page(): rex_be_page
     {
-        $page = new \rex_be_page('rex-var', \rex_i18n::msg('cheatsheet_rex_var_title'));
+        $page = new rex_be_page('rex-var', \rex_i18n::msg('cheatsheet_rex_var_title'));
         $page->setHref(['page' => 'cheatsheet/rex-var']);
 
-        $subpage = new \rex_be_page('docs', \rex_i18n::msg('cheatsheet_rex_var_docs_title'));
+        $subpage = new rex_be_page('docs', \rex_i18n::msg('cheatsheet_rex_var_docs_title'));
         $subpage->setHref(['page' => 'cheatsheet/rex-var/docs']);
         $subpage->setSubPath(\rex_path::addon('cheatsheet', 'lib/RexVar/pages/docs.php'));
         $page->addSubpage($subpage);

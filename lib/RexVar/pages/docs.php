@@ -8,24 +8,25 @@ $all = RexVar::getAll();
 $requestIndex = rex_request('index', 'string', 'core');
 $function = rex_request('func', 'string', '');
 
-if ($function == 'parse') {
+if ('parse' === $function) {
     RexVar::deleteCache();
     $rexVars = RexVarParser::factory(rex_path::src())->parse();
-    if (count($rexVars)) {
+    if (count($rexVars) > 0) {
         echo rex_view::success(rex_i18n::msg('cheatsheet_rex_var_parse_success_all', count($rexVars)));
     }
 }
 
 
-if (count($all)) {
+if (count($all) > 0) {
     $nav = [];
     $toc = [];
     $content = [];
+    /** @var list<RexVar> $rexVars */
     foreach ($all as $index => $rexVars) {
         $navAttributes = [
             'href' => rex_url::currentBackendPage(['index' => $index]),
         ];
-        if ($index == $requestIndex) {
+        if ($index === $requestIndex) {
             $navAttributes['class'][] = 'active';
         }
         if (strpos($index, '/') !== false) {
@@ -41,7 +42,8 @@ if (count($all)) {
         $toc[] = '<a href="#' . $rexVar->getName() . '">' . $rexVar->getName() . '</a>';
 
         $button = '';
-        if ($url = $editor->getUrl($rexVar->getFilepath(),$rexVar->getLn())) {
+        $url = $editor->getUrl($rexVar->getFilepath(),$rexVar->getLn());
+        if (is_string($url)) {
            $button = ' <a href="'. $url .'" class="btn btn-info btn-xs"><i class="rex-icon rex-icon-view"></i> '.$editor->getName().'</a>';
         }
 

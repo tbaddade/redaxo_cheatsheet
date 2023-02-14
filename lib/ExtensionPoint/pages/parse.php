@@ -7,23 +7,23 @@ use Cheatsheet\Package;
 $packageRequest = trim(rex_request('package', 'string', ''), '/ ');
 $function = rex_request('func', 'string', 'view');
 
-if ($function == 'parse' && rex_request('all', 'bool', 0)) {
+if ('parse' === $function && rex_request('all', 'bool', 0)) {
     $extensionPoints = ExtensionPointParser::factory(rex_path::src())->parse();
-    if (count($extensionPoints)) {
+    if (count($extensionPoints) > 0) {
         echo rex_view::success(rex_i18n::msg('cheatsheet_extension_point_parse_success_all', count($extensionPoints)));
     }
 }
-if ($function == 'parse' && Package::exists($packageRequest)) {
+if ('parse' === $function && Package::exists($packageRequest)) {
     $package = Package::get($packageRequest);
 
     $extensionPoints = ExtensionPointParser::factory($package->getPath())->parse();
-    if (count($extensionPoints)) {
+    if (count($extensionPoints) > 0) {
         echo rex_view::success(rex_i18n::msg('cheatsheet_extension_point_parse_success', count($extensionPoints), $package->getName()));
     } else {
         $cacheDir = \rex_path::addonCache('cheatsheet', 'extension_points/');
         $data = '';
         $filename = $package->getPackageId() . '.cache';
-        if (\rex_file::putCache($cacheDir . $filename, $data) === false) {
+        if (false === rex_file::putCache($cacheDir . $filename, $data)) {
             throw new \rex_exception('Cheatsheet cache file could not be generated');
         }
         echo rex_view::warning(rex_i18n::msg('cheatsheet_extension_point_parse_warning', $package->getName()));
@@ -40,17 +40,17 @@ $getTableRow = function (Package $package) {
     $linkLabel = rex_i18n::msg('cheatsheet_extension_point_parse');
     if (file_exists($cacheFile)) {
         $class[] = 'text-muted';
-        $cache = rex_file::getCache($cacheFile);
-        $count = $cache == '' ? 0 : count($cache);
+        $cache = (array) rex_file::getCache($cacheFile);
+        $count = count($cache);
         $linkLabel = rex_i18n::msg('cheatsheet_extension_point_reparsing');
 
-        if (count($package->getPlugins())) {
+        if (count($package->getPlugins()) > 0) {
             /* @var $plugin \rex_plugin */
             foreach ($package->getPlugins() as $plugin) {
                 $cacheFilePlugin = rex_path::addonCache('cheatsheet', 'extension_points/' . str_replace('/', '.', $plugin->getPackageId()) . '.cache');
                 if (file_exists($cacheFilePlugin)) {
-                    $cache = rex_file::getCache($cacheFilePlugin);
-                    $count = $cache == '' ? $count : ($count + count($cache));
+                    $cache = (array) rex_file::getCache($cacheFilePlugin);
+                    $count += count($cache);
                 }
             }
         }

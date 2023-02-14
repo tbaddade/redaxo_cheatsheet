@@ -9,12 +9,13 @@
  * file that was distributed with this source code.
  */
 
-if (rex::isBackend() && rex::getUser()) {
+$addon = rex_addon::get('cheatsheet');
 
-    rex_extension::register('PAGES_PREPARED', function () {
-        $providers = \rex_addon::get('cheatsheet')->getProperty('providers', []);
+if (rex::isBackend() && is_object(rex::getUser())) {
+    rex_extension::register('PAGES_PREPARED', function () use ($addon) {
+        $providers = $addon->getProperty('providers', []);
         foreach (\rex_package::getAvailablePackages() as $package) {
-            if ($package->getProperty('cheatsheet')) {
+            if ($package->hasProperty('cheatsheet')) {
                 $property = $package->getProperty('cheatsheet');
                 if (!is_array($property)) {
                     $property = [$property];
@@ -29,18 +30,18 @@ if (rex::isBackend() && rex::getUser()) {
             if (is_dir($instance->i18n())) {
                 \rex_i18n::addDirectory($instance->i18n());
             }
-            $page->addSubPage($instance->page());
+            $page->addSubpage($instance->page());
         }
     });
 
 
-    $stylesheets = $this->getProperty('stylesheets', []);
+    $stylesheets = $addon->getProperty('stylesheets', []);
     foreach ($stylesheets as $stylesheet) {
-        rex_view::addCssFile($this->getAssetsUrl($stylesheet));
+        rex_view::addCssFile($addon->getAssetsUrl($stylesheet));
     }
 
-    $javascripts = $this->getProperty('javascripts', []);
+    $javascripts = $addon->getProperty('javascripts', []);
     foreach ($javascripts as $javascript) {
-        rex_view::addJsFile($this->getAssetsUrl($javascript));
+        rex_view::addJsFile($addon->getAssetsUrl($javascript));
     }
 }

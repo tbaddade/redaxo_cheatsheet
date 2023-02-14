@@ -35,21 +35,21 @@ class RexVarParser extends ParserAbstract
     {
         $results = [];
 
-        /** @var $file \SplFileInfo */
+        /** @var \SplFileInfo $file */
         foreach ($this->iterator as $file) {
             $filepath = $file->getPathname();
             $content = \rex_file::get($filepath);
 
             $path = explode(DIRECTORY_SEPARATOR, str_replace(\rex_path::src(), '', $filepath));
             $cacheFilename = 'core.cache';
-            if(isset($path[0]) && $path[0] == 'addons' && isset($path[2]) && $path[2] == 'plugins') {
+            if(isset($path[0]) && 'addons' === $path[0] && isset($path[2]) && 'plugins' === $path[2]) {
                 $cacheFilename = $path[1] . '.' . $path[3] . '.cache';
-            } elseif(isset($path[0]) && $path[0] == 'addons' && isset($path[1]) && $path[1] != '') {
+            } elseif(isset($path[0]) && 'addons' === $path[0] && isset($path[1]) && '' !== $path[1]) {
                 $cacheFilename = $path[1] . '.cache';
             }
 
             preg_match_all(self::PATTERN, $content, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
-            if (count($matches)) {
+            if (count($matches) > 0) {
                 foreach ($matches as $match) {
 
                     list($before) = str_split($content, $match['complete'][1]);
@@ -69,7 +69,7 @@ class RexVarParser extends ParserAbstract
             }
         }
 
-        if (count($results)) {
+        if (count($results) > 0) {
             usort($results, '\Cheatsheet\Arr::sortByName');
         }
 

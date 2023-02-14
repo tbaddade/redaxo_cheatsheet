@@ -11,19 +11,23 @@
 
 namespace Cheatsheet\ExtensionPoint;
 
+use rex_file;
+use rex_finder;
+use rex_path;
+
 class ExtensionPoint
 {
-    private static $cacheLoaded = false;
-    private static $extensionPoints = [];
+    private static bool $cacheLoaded = false;
+    private static array $extensionPoints = [];
 
-    private $ln;
-    private $name;
-    private $filename;
-    private $filepath;
-    private $params;
-    private $point;
-    private $readonly;
-    private $subject;
+    private string $ln = '';
+    private string $name = '';
+    private string $filename = '';
+    private string $filepath = '';
+    private string $params = '';
+    private string $point = '';
+    private string $readonly = '';
+    private string $subject = '';
 
     private function __construct()
     {
@@ -36,7 +40,7 @@ class ExtensionPoint
      *
      * @return bool
      */
-    public static function exists($package)
+    public static function exists(string $package): bool
     {
         self::checkCache();
         return isset(self::$extensionPoints[$package]);
@@ -49,12 +53,12 @@ class ExtensionPoint
      *
      * @return self[]
      */
-    public static function getByPackage($package)
+    public static function getByPackage(string $package): array
     {
         if (self::exists($package)) {
             return self::$extensionPoints[$package];
         }
-        return null;
+        return [];
     }
 
     /**
@@ -62,7 +66,7 @@ class ExtensionPoint
      *
      * @return array
      */
-    public static function getFromCore()
+    public static function getFromCore(): array
     {
         return self::getByPackage('core');
     }
@@ -74,7 +78,7 @@ class ExtensionPoint
      *
      * @return array
      */
-    public static function getFromAddon($addon)
+    public static function getFromAddon(string $addon): array
     {
         return self::getByPackage($addon);
     }
@@ -87,7 +91,7 @@ class ExtensionPoint
      *
      * @return array
      */
-    public static function getFromPlugin($addon, $plugin)
+    public static function getFromPlugin(string $addon, string $plugin): array
     {
         return self::getByPackage($addon . '/' . $plugin);
     }
@@ -97,7 +101,7 @@ class ExtensionPoint
      *
      * @return string
      */
-    public function getFilename()
+    public function getFilename(): string
     {
         return $this->filename;
     }
@@ -107,7 +111,7 @@ class ExtensionPoint
      *
      * @return string
      */
-    public function getFilepath()
+    public function getFilepath(): string
     {
         return $this->filepath;
     }
@@ -117,7 +121,7 @@ class ExtensionPoint
      *
      * @return string
      */
-    public function getLn()
+    public function getLn(): string
     {
         return $this->ln;
     }
@@ -127,7 +131,7 @@ class ExtensionPoint
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -137,7 +141,7 @@ class ExtensionPoint
      *
      * @return string
      */
-    public function getParams()
+    public function getParams(): string
     {
         return $this->params;
     }
@@ -147,7 +151,7 @@ class ExtensionPoint
      *
      * @return string
      */
-    public function getRegisteredPoint()
+    public function getRegisteredPoint(): string
     {
         return $this->point;
     }
@@ -157,7 +161,7 @@ class ExtensionPoint
      *
      * @return string
      */
-    public function getSubject()
+    public function getSubject(): string
     {
         return $this->subject;
     }
@@ -167,9 +171,9 @@ class ExtensionPoint
      *
      * @return bool
      */
-    public function isReadonly()
+    public function isReadonly(): bool
     {
-        return ($this->readonly == 'false' ? false : true);
+        return !($this->readonly === 'false');
     }
 
     /**
@@ -177,7 +181,7 @@ class ExtensionPoint
      *
      * @return int
      */
-    public static function count()
+    public static function count(): int
     {
         self::checkCache();
         return count(self::$extensionPoints);
@@ -188,7 +192,7 @@ class ExtensionPoint
      *
      * @return self[]
      */
-    public static function getAll()
+    public static function getAll(): array
     {
         self::checkCache();
         return self::$extensionPoints;
@@ -203,19 +207,18 @@ class ExtensionPoint
             return;
         }
 
-        $cacheDir = \rex_path::addonCache('cheatsheet/extension_points/');
+        $cacheDir = rex_path::addonCache('cheatsheet/extension_points/');
         if (!file_exists($cacheDir)) {
             return;
         }
 
-
-        $iterator = \rex_finder::factory($cacheDir)->filesOnly();
+        $iterator = rex_finder::factory($cacheDir)->filesOnly();
 
         /* @var $file \SplFileInfo */
         foreach ($iterator as $file) {
             $cacheKey = str_replace(['.' . $file->getExtension(), '.'], ['', '/'], $file->getFilename());
-            $cacheExtensionPoints = \rex_file::getCache($file->getPathname());
-            if ($cacheExtensionPoints != '') {
+            $cacheExtensionPoints = rex_file::getCache($file->getPathname());
+            if (is_array($cacheExtensionPoints)) {
                 foreach ($cacheExtensionPoints as $cacheExtensionPoint) {
                     $extensionPoint = new self();
                     foreach ($cacheExtensionPoint as $key => $value) {
