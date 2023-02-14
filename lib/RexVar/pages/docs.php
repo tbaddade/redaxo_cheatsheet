@@ -44,7 +44,7 @@ if (count($all) > 0) {
         $button = '';
         $url = $editor->getUrl($rexVar->getFilepath(),$rexVar->getLn());
         if (is_string($url)) {
-           $button = ' <a href="'. $url .'" class="btn btn-info btn-xs"><i class="rex-icon rex-icon-view"></i> '.$editor->getName().'</a>';
+           $button = ' <a href="'. $url .'" class="btn btn-default btn-xs"><i class="rex-icon rex-icon-view"></i> '.$editor->getName().'</a>';
         }
 
         $docs = '';
