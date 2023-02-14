@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "phpstan": "phpstan analyze -c phpstan.dev.neon"
+    }
+}
