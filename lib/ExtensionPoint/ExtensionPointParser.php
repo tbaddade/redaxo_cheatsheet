@@ -67,7 +67,6 @@ class ExtensionPointParser extends ParserAbstract
 
                     if (-1 < $match['class'][1]) {
                         array_unshift($paramsAsArray, strtoupper($match['class'][0]));
-                        dump($paramsAsArray);
                     }
 
                     [$before] = str_split($content, $match['complete'][1]);
